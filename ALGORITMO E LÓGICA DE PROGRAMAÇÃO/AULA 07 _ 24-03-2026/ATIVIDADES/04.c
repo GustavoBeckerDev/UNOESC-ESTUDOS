@@ -19,9 +19,9 @@ int main()
 
     for(i=1; i <= meses; i++)
     {
-        capital = capital += (capital *= juros / 100);
+        capital += (capital * (juros/100));
     }
 
-    printf("O CAPITAL FINAL E: %f", capital);
+    printf("O CAPITAL FINAL E: %.2f", capital);
 
 }
