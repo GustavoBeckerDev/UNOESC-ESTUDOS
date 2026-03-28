@@ -16,5 +16,7 @@ int main()
     k = c + 273.15;
     
     printf("O valor de %.2f°C em Fahrenheit é: %.2f°F, e em Kelvin é: %.2f°K.", c, f, k);
-    
+
+}
+
     
