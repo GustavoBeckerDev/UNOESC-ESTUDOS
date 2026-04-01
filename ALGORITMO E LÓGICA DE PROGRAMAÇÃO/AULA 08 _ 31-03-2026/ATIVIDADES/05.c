@@ -1,0 +1,1 @@
+// Escreva um programa que peça um número ‘n’ ao usuário, e que gere um novo ‘n’ de acordo com as seguintes regras, usar comando while:
