@@ -45,6 +45,7 @@ int main()
 
         if (numero == 0)
         {
+            printf("PROGRAMA FINALIZADO !!!");
             break;
         }
 
