@@ -7,17 +7,23 @@ int maior (int a, int b)
 	else if (b > a)
 	    return b;
 	else 
-	    printf(“Os valores sao iguais.”);
+	    return 1;
 }
 
 int main( )
 {
-    int resultado;
+	int x = 0; 
+	int y = 0;
 
-    printf(“Digite 2 numeros inteiros: “);
-    scanf(“%d %d”, &x, &y);
+    printf("Digite o 1 numero inteiro: ");
+    scanf("%d", &x);
 
-    resultado = maior(x, y);
+	printf("Digite o 2 numero inteiro: ");
+    scanf("%d", &y);
 
-    printf(resultado);
+	if (maior(x,y) == 1)
+		printf("Os numeros %d e %d sao iguais.", x, y);
+	else
+		printf("O maior numero e: %d", maior(x, y));
+
 }
