@@ -12,6 +12,7 @@ int maior (int a, int b)
 
 int main( )
 {
+	
 	int x = 0; 
 	int y = 0;
 
