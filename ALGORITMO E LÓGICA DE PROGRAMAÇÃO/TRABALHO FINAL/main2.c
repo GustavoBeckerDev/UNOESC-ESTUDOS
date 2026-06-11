@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <conio.h>
 
 // AQUI IREI DEFINIR A ESTRUTURA DO MEU LIVRO (CODIGO, TITULO, CATEGORIA, QUANTIDADE)
 
@@ -13,8 +14,7 @@ struct Livro
 
 #define LIMITE_LIVROS 100
 
-struct Livro biblioteca[100] = 
-
+struct Livro biblioteca[LIMITE_LIVROS] = 
 {
     {1, "PHP", "Programacao", 10},
     {2, "MYSQL MARIA DB", "Banco de Dados", 5},
@@ -28,7 +28,24 @@ struct Livro biblioteca[100] =
     {10, "IA DATA SCIENCE", "Ciencia de Dados", 5}
 };
 
+
 int totalLivros = 10;
+
+
+int cadastrarLivro();
+void alugarLivro();
+void devolverLivro();
+void listarLivro();
+void buscarLivro();
+void alterarLivro();
+void removerLivro();
+void executarMenu();
+
+int main()
+{
+    executarMenu();
+    return 0;
+}
 
 // MENU PRINCIPAL PARA O USUARIO ESCOLHER A OPÇÃO CORRESPONDENTE A AÇÃO DESEJADA
 
@@ -53,7 +70,7 @@ int menu()
     printf("\n O QUE DESEJA FAZER HOJE? \n");
     scanf("%d", &op);
 
-    return op;
+    return op; 
 
 }
 
@@ -91,12 +108,12 @@ void executarMenu()
                 removerLivro();
                 break;
             case 8:
-                printf("\n ATÉ A PRÓXIMA GARFANHOTO !!!\n");
+                printf("\n ATE A PROXIMA GARFANHOTO !!!\n");
                 break;
             default:
                 printf("OPCAO INVALIDA, TENTE NOVAMENTE !!!\n");
                 break;
-
+                
         }
 
     } while(op != 8);
@@ -109,19 +126,18 @@ void executarMenu()
 
 int helperBuscaPorCod(int codigo)
 {
-
     for(int i = 0; i < totalLivros; i++)
     {
+
         if (biblioteca[i].codigo == codigo)
         {
             return i;
         }
-    }
 
+    }
 }
 
-// INICIANDO AS FUNÇÕES REAIS DO SWITCH CASE, UMA POR UMA, 
-// CRUD (CREATE, READ, UPDATE, DELETE) COMPLETO E OUTRAS OPÇÕES
+// INICIANDO AS FUNÇÕES REAIS DO SWITCH CASE, UMA POR UMA.
 
 //FUNÇÃO DE CRIAR/CADASTRAR UM LIVRO: 
 
@@ -135,24 +151,70 @@ int cadastrarLivro()
     printf("\n");
 
     if (totalLivros >= LIMITE_LIVROS)
+    {
         printf("\nA BIBLIOTECA ESTA CHEIA NO MOMENTO, TENTE NOVAMENTE MAIS TARDE !!!\n");
+        return -1;
+    }
 
-    codigo = totalLivros + 1;
-
-    printf("DIGITE O TITULO DO LIVRO: \n");
-    scanf("%c", titulo);
-    biblioteca[totalLivros].titulo[100] = titulo;
     
 
+    printf("DIGITE O TITULO DO LIVRO: \n");
+    scanf("%s", titulo);
+    strcpy(biblioteca[totalLivros].titulo, titulo);
 
+    printf("DIGITE A CATEGORIA DO LIVRO: \n");
+    scanf("%s", categoria);
+    strcpy(biblioteca[totalLivros].categoria, categoria);
 
-}
+    printf("DIGITE QUANTOS LIVROS SERÃO ADICIONADOS: \n");
+    scanf("%d", &quantidade);
+    biblioteca[totalLivros].quantidade = quantidade;
 
+    printf("\n OBRIGADO GARFANHOTO, LIVRO CADASTRADO, TMJ !!! \n");
+    
+    codigo = totalLivros + 1;
+    totalLivros++;
 
-int main()
-{
-
-    executarMenu();
     return 0;
 
 }
+
+void listarLivro()
+{
+    printf("\n\nLISTA COMPLETA DE LIVROS GARFANHOTO !!!\n\n");
+    printf("========================================\n");
+
+
+    for (int i = 0; i < totalLivros; i++)
+    {
+        printf("|| CODIGO: %d\n", biblioteca[i].codigo);
+        printf("|| TITULO: %s\n", biblioteca[i].titulo);
+        printf("|| CATEGORIA: %s\n", biblioteca[i].categoria);
+        printf("|| QUANTIDADE: %d\n", biblioteca[i].quantidade);
+        printf("========================================\n\n");
+
+    }
+
+};
+
+
+void alugarLivro()
+{
+    printf("BOA");
+};
+void devolverLivro()
+{
+    printf("BOA");
+};
+void buscarLivro()
+{
+    printf("BOA");
+};
+void alterarLivro()
+{
+    printf("BOA");
+};
+void removerLivro()
+{
+    printf("BOA");
+};
