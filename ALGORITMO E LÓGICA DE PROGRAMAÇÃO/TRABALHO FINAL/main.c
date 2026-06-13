@@ -321,8 +321,6 @@ void alugarLivro()
     printf("\nLivro alugado com sucesso!\n");
 }
 
-/* DEVOLVER LIVRO */
-
 void devolverLivro()
 {
     int codigo;
@@ -344,7 +342,6 @@ void devolverLivro()
     printf("\nLivro devolvido com sucesso!\n");
 }
 
-/* ESTATISTICAS */
 
 void estatisticas()
 {
