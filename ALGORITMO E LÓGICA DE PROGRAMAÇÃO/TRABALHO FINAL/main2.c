@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <conio.h>
+#include <stdlib.h>
 
 // AQUI IREI DEFINIR A ESTRUTURA DO MEU LIVRO (CODIGO, TITULO, CATEGORIA, QUANTIDADE)
 
@@ -13,26 +13,33 @@ struct Livro
 };
 
 #define LIMITE_LIVROS 100
+#define LIMITE_ALUGADOS 100
 
 struct Livro biblioteca[LIMITE_LIVROS] = 
 {
-    {1, "PHP", "Programacao", 10},
-    {2, "MYSQL MARIA DB", "Banco de Dados", 5},
-    {3, "HTML5", "Desenvolvimento Web", 10},
-    {4, "CSS3", "Desenvolvimento Web", 5},
-    {5, "JAVASCIRPT", "Desenvolvimento Web", 10},
-    {6, "JAVA POO", "Programacao", 5},
-    {7, "DATA SCIENCE", "Ciencia de Dados", 10},
-    {8, "UI UX", "Desenvolvimento Web", 10},
-    {9, "PYTHON", "Programacao", 10},
-    {10, "IA DATA SCIENCE", "Ciencia de Dados", 5}
+    {187, "PHP", "Programacao", 10},
+    {254, "MYSQL MARIA DB", "Banco de Dados", 5},
+    {344, "HTML5", "Desenvolvimento Web", 10},
+    {447, "CSS3", "Desenvolvimento Web", 5},
+    {569, "JAVASCIRPT", "Desenvolvimento Web", 10},
+    {656, "JAVA POO", "Programacao", 5},
+    {778, "DATA SCIENCE", "Ciencia de Dados", 10},
+    {878, "UI UX", "Desenvolvimento Web", 10},
+    {978, "PYTHON", "Programacao", 10},
+    {1014, "IA DATA SCIENCE", "Ciencia de Dados", 5}
 };
 
+// STRUCT DE ALUGADOS PARA GUARDAR OS LIVROS QUE FORAM ALUGADOS, 
+// PARA DEPOIS CONSEGUIR CONTROLAR MELHOR A QUANTIDADE DE LIVROS DISPONIVEIS NA BIBLIOTECA, 
+// E TAMBEM PARA TER UM REGISTRO DE QUAIS LIVROS FORAM ALUGADOS
+
+struct Livro alugados[LIMITE_ALUGADOS];
 
 int totalLivros = 10;
+int totalAlugados = 0;
 
-
-int cadastrarLivro();
+int menu();
+void cadastrarLivro();
 void alugarLivro();
 void devolverLivro();
 void listarLivro();
@@ -40,6 +47,8 @@ void buscarLivro();
 void alterarLivro();
 void removerLivro();
 void executarMenu();
+int helperBuscaPorCod(int codigo);
+int helperBuscaPorCodAlugados(int codigo);
 
 int main()
 {
@@ -70,8 +79,7 @@ int menu()
     printf("\n O QUE DESEJA FAZER HOJE? \n");
     scanf("%d", &op);
 
-    return op; 
-
+    return op;
 }
 
 void executarMenu()
@@ -135,13 +143,28 @@ int helperBuscaPorCod(int codigo)
         }
 
     }
+    return -1; // RETORNA -1 SE O CODIGO NAO FOR ENCONTRADO, PARA TRATAR O ERRO NAS FUNCOES QUE USAM ESSE HELPER
+}
+
+// O MESMO PARA BUSCAR O CODIGO NA TABELA DE ALUGADOS, PARA UTILZIAR NA HORA DE DEVOLVER
+
+int helperBuscarPorCodAlugados(int codigo)
+{
+    for (int i = 0; i < totalAlugados; i++)
+    {
+        if (alugados[i].codigo == codigo)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 // INICIANDO AS FUNÇÕES REAIS DO SWITCH CASE, UMA POR UMA.
 
 //FUNÇÃO DE CRIAR/CADASTRAR UM LIVRO: 
 
-int cadastrarLivro()
+void cadastrarLivro()
 {
     int codigo;
     char titulo[100];
@@ -153,29 +176,44 @@ int cadastrarLivro()
     if (totalLivros >= LIMITE_LIVROS)
     {
         printf("\nA BIBLIOTECA ESTA CHEIA NO MOMENTO, TENTE NOVAMENTE MAIS TARDE !!!\n");
-        return -1;
+        return;
     }
 
+    printf("\n========================================\n\n");
+    printf("CADASTRO GERAL DE LIVROS DA BIBLIOTECA: ");
+    printf("\n========================================\n\n");
     
+    printf("DIGITE O CODIGO DO LIVRO: \n");
+    scanf("%d", &codigo);
+    
+    if(helperBuscaPorCod(codigo) != -1)
+    {
+        printf("CODIGO JA CADASTRADO!\n");
+        return;
+    }
+    biblioteca[totalLivros].codigo = codigo;
 
     printf("DIGITE O TITULO DO LIVRO: \n");
-    scanf("%s", titulo);
+    scanf(" %[^\n]", titulo);
     strcpy(biblioteca[totalLivros].titulo, titulo);
 
     printf("DIGITE A CATEGORIA DO LIVRO: \n");
-    scanf("%s", categoria);
+    scanf(" %[^\n]", categoria);
     strcpy(biblioteca[totalLivros].categoria, categoria);
 
     printf("DIGITE QUANTOS LIVROS SERÃO ADICIONADOS: \n");
     scanf("%d", &quantidade);
+
+    if (quantidade <= 0)
+    {
+        printf("QUANTIDADE INVALIDA, TENTE NOVAMENTE !!!\n");
+        return;
+    }
     biblioteca[totalLivros].quantidade = quantidade;
 
     printf("\n OBRIGADO GARFANHOTO, LIVRO CADASTRADO, TMJ !!! \n");
     
-    codigo = totalLivros + 1;
     totalLivros++;
-
-    return 0;
 
 }
 
@@ -184,6 +222,8 @@ void listarLivro()
     printf("\n\nLISTA COMPLETA DE LIVROS GARFANHOTO !!!\n\n");
     printf("========================================\n");
 
+    printf("TOTAL DE TITULOS CADASTRADOS: %d", totalLivros);
+    printf("\n========================================\n\n");
 
     for (int i = 0; i < totalLivros; i++)
     {
@@ -191,30 +231,286 @@ void listarLivro()
         printf("|| TITULO: %s\n", biblioteca[i].titulo);
         printf("|| CATEGORIA: %s\n", biblioteca[i].categoria);
         printf("|| QUANTIDADE: %d\n", biblioteca[i].quantidade);
-        printf("========================================\n\n");
-
+        printf("\n\n====================================================\n\n");
     }
-
 };
 
-
+ 
 void alugarLivro()
 {
-    printf("BOA");
-};
+    int codigo;
+    listarLivro();
+
+    printf("\n=========================================================\n\n");
+    printf("SEJA BEM VINDO A SEÇÃO DE LOCAÇÃO DE LIVROS GARFANHOTO !!!");
+    printf("\n=========================================================\n\n");
+
+    printf("\nDIGITE O CODIGO DO LIVRO QUE DESEJA ALUGAR: ");
+    scanf("%d", &codigo);
+
+    int indice = helperBuscaPorCod(codigo);
+
+    if (indice == -1) // NÃO EXISTE INDICE -1 NUM VETOR, ENTAO ISSO É UM RETORNO NEGATIVO/NAO ENCONTRADO DA BUSCA DA FUNCAO
+    {
+        printf("CODIGO NAO ENCONTRADO, TENTE NOVAMENTE !!!\n");
+        return;
+    }
+
+    if (biblioteca[indice].quantidade <= 0)
+    {
+        printf("LIVRO INDISPONIVEL NO MOMENTO, VOLTE DEPOIS GARFANHOTO !!!\n");
+        return;
+    }
+
+    biblioteca[indice].quantidade--;
+    
+    alugados[totalAlugados] = biblioteca[indice];
+    alugados[totalAlugados].quantidade = 1;
+    totalAlugados++;
+
+    printf("\n\nTÍTULO %s ALUGADO COM SUCESSO !!! \n\n", biblioteca[indice].titulo);
+    printf("\n\nRESTARAM %d LIVROS DO TITULO %s DISPONÍVELS.\n\n", biblioteca[indice].quantidade, biblioteca[indice].titulo);
+}
+
 void devolverLivro()
 {
-    printf("BOA");
-};
+    int codigo;
+
+    printf("\n\n DEVOLUÇÃO DE LIVROS ALUGADOS !!!\n\n");
+
+    printf("\nDIGITE O CODIGO DO LIVRO QUE DESEJA DEVOLVER: ");
+    scanf("%d", &codigo);
+
+    int indiceAlugado = helperBuscarPorCodAlugados(codigo);
+
+    if(indiceAlugado == -1)
+    {
+        printf("\nLIVRO NAO ENCONTRADO NOS ALUGADOS!\n");
+        return;
+    }
+
+    int indiceBiblioteca = helperBuscaPorCod(codigo);
+
+    if(indiceBiblioteca == -1)
+    {
+        printf("\nERRO INTERNO: LIVRO NAO EXISTE NA BIBLIOTECA.\n");
+        return;
+    }
+
+    biblioteca[indiceBiblioteca].quantidade++;
+
+    alugados[indiceAlugado].quantidade--;
+
+    if(alugados[indiceAlugado].quantidade == 0)
+    {
+        for(int i = indiceAlugado; i < totalAlugados - 1; i++)
+        {
+            alugados[i] = alugados[i + 1];
+        }
+
+        totalAlugados--;
+    }
+
+    printf("\nLIVRO \"%s\" DEVOLVIDO COM SUCESSO!\n", biblioteca[indiceBiblioteca].titulo);
+}
+
 void buscarLivro()
 {
-    printf("BOA");
-};
+    int indice;
+    int codigo;
+
+    printf("\n\nDIGITE O CODIGO DO LIVRO QUE DESEJA BUSCAR: ");
+    scanf("%d", &codigo);
+
+    indice = helperBuscaPorCod(codigo);
+
+    if (indice == -1)
+    {
+        printf("\n\n CODIGO NAO ENCONTRADO !!!\n\n");
+    }
+
+    printf("\n\n LIVRO ENCONTRADO, SEGUE DADOS DO LIVRO: \n\n");
+
+    printf("\n\n========================================");
+    printf("\n\nCODIGO: %d", codigo);
+    printf("\n\nTITULO: %s", biblioteca[indice].titulo);
+    printf("\n\nCATEGORIA: %s", biblioteca[indice].categoria);
+    printf("\n\nQUANTIDADE: %d", biblioteca[indice].quantidade);
+    printf("\n\n========================================\n\n");
+
+}
+
+
 void alterarLivro()
 {
-    printf("BOA");
-};
+    int codigo;
+    int indice;
+
+    char opcao;
+
+    printf("\nDIGITE O CODIGO DO LIVRO QUE DESEJA ALTERAR: ");
+    scanf("%d", &codigo);
+
+    indice = helperBuscaPorCod(codigo);
+
+    if(indice == -1)
+    {
+        printf("\nCODIGO NAO ENCONTRADO!\n");
+        return;
+    }
+
+    printf("\n===========================================\n");
+    printf("\n============ LIVRO ENCONTRADO: ============\n");
+    printf("\n===========================================\n");
+
+    printf("\nCODIGO: %d\n", biblioteca[indice].codigo);
+    printf("\nTITULO: %s\n", biblioteca[indice].titulo);
+    printf("\nCATEGORIA: %s\n", biblioteca[indice].categoria);
+    printf("\nQUANTIDADE: %d\n", biblioteca[indice].quantidade);
+
+    printf("\n========================================\n");
+
+    // ALTERAR CODIGO
+
+    printf("\nDESEJA ALTERAR O CODIGO? (S/N): ");
+    scanf(" %c", &opcao);
+
+    if(opcao == 'S' || opcao == 's')
+    {
+        int novoCodigo;
+
+        printf("DIGITE O NOVO CODIGO: ");
+        scanf("%d", &novoCodigo);
+
+        if(helperBuscaPorCod(novoCodigo) != -1)
+        {
+            printf("CODIGO JA EXISTE! ALTERACAO CANCELADA.\n");
+        }
+        else
+        {
+            biblioteca[indice].codigo = novoCodigo;
+            printf("CODIGO ALTERADO COM SUCESSO!\n");
+        }
+    }
+
+    printf("\nDESEJA ALTERAR O TITULO? (S/N): ");
+    scanf(" %c", &opcao);
+
+    if(opcao == 'S' || opcao == 's')
+    {
+        char novoTitulo[100];
+
+        printf("DIGITE O NOVO TITULO: ");
+        scanf(" %[^\n]", novoTitulo);
+
+        strcpy(biblioteca[indice].titulo, novoTitulo);
+
+        printf("\n\nTITULO ALTERADO COM SUCESSO!\n\n");
+    }
+
+    // ALTERAR CATEGORIA
+
+    printf("\nDESEJA ALTERAR A CATEGORIA? (S/N): ");
+    scanf(" %c", &opcao);
+
+    if(opcao == 'S' || opcao == 's')
+    {
+        char novaCategoria[50];
+
+        printf("DIGITE A NOVA CATEGORIA: ");
+        scanf(" %[^\n]", novaCategoria);
+
+        strcpy(biblioteca[indice].categoria, novaCategoria);
+
+        printf("CATEGORIA ALTERADA COM SUCESSO!\n");
+    }
+
+    // ALTERAR QUANTIDADE
+
+    printf("\nDESEJA ALTERAR A QUANTIDADE? (S/N): ");
+    scanf(" %c", &opcao);
+
+    if(opcao == 'S' || opcao == 's')
+    {
+        int novaQuantidade;
+
+        printf("DIGITE A NOVA QUANTIDADE: ");
+        scanf("%d", &novaQuantidade);
+
+        if(novaQuantidade < 0)
+        {
+            printf("QUANTIDADE INVALIDA!\n");
+        }
+        else
+        {
+            biblioteca[indice].quantidade = novaQuantidade;
+            printf("QUANTIDADE ALTERADA COM SUCESSO!\n");
+        }
+    }
+
+    printf("\n\n=================================================\n\n");
+    printf("\n\n ============ DADOS FINAIS DO LIVRO: ============\n\n");
+    printf("\n\n=================================================\n\n");
+
+    printf("CODIGO: %d\n", biblioteca[indice].codigo);
+    printf("TITULO: %s\n", biblioteca[indice].titulo);
+    printf("CATEGORIA: %s\n", biblioteca[indice].categoria);
+    printf("QUANTIDADE: %d\n", biblioteca[indice].quantidade);
+
+    printf("\nALTERACAO CONCLUIDA COM SUCESSO!\n");
+}
+
 void removerLivro()
 {
-    printf("BOA");
-};
+    int codigo;
+    int indiceBiblioteca;
+    int indiceAlugado;
+    char confirmar;
+
+    printf("\nDIGITE O CODIGO DO LIVRO QUE DESEJA REMOVER: ");
+    scanf("%d", &codigo);
+
+    indiceBiblioteca = helperBuscaPorCod(codigo);
+
+    if(indiceBiblioteca == -1)
+    {
+        printf("\nCODIGO NAO ENCONTRADO!\n");
+        return;
+    }
+
+    indiceAlugado = helperBuscarPorCodAlugados(codigo);
+
+    if(indiceAlugado != -1)
+    {
+        printf("\n=================================================\n");
+        printf("NAO E POSSIVEL REMOVER ESTE LIVRO!\n");
+        printf("EXISTEM EXEMPLARES ALUGADOS DESTE TITULO.\n");
+        printf("AGUARDE A DEVOLUCAO DE TODOS OS EXEMPLARES.\n");
+        printf("=================================================\n");
+        return;
+    }
+
+    printf("\nLIVRO ENCONTRADO:\n");
+    printf("CODIGO: %d\n", biblioteca[indiceBiblioteca].codigo);
+    printf("TITULO: %s\n", biblioteca[indiceBiblioteca].titulo);
+    printf("CATEGORIA: %s\n", biblioteca[indiceBiblioteca].categoria);
+    printf("QUANTIDADE: %d\n", biblioteca[indiceBiblioteca].quantidade);
+
+    printf("\nTEM CERTEZA QUE DESEJA REMOVER? (S/N): ");
+    scanf(" %c", &confirmar);
+
+    if(confirmar != 'S' && confirmar != 's')
+    {
+        printf("\nOPERACAO CANCELADA!\n");
+        return;
+    }
+
+    for(int i = indiceBiblioteca; i < totalLivros - 1; i++)
+    {
+        biblioteca[i] = biblioteca[i + 1];
+    }
+
+    totalLivros--;
+
+    printf("\nLIVRO REMOVIDO COM SUCESSO!\n");
+}
