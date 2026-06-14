@@ -99,6 +99,9 @@ void executarMenu()
                 break;
 
             case 8:
+                estatisticas();
+                break;
+            case 9:
                 printf("\nEncerrando sistema...\n");
                 break;
 

@@ -47,8 +47,17 @@ void buscarLivro();
 void alterarLivro();
 void removerLivro();
 void executarMenu();
+void estatisticas();
 int helperBuscaPorCod(int codigo);
 int helperBuscaPorCodAlugados(int codigo);
+
+// DECLARANDO VARIAVEIS DE ESTATISTICAS DO SISTEMA
+
+int livrosCadastrados = 0;
+int livrosRemovidos = 0;
+int livrosAlterados = 0;
+int livrosAlugados = 0;
+int livrosDevolvidos = 0;
 
 int main()
 {
@@ -74,7 +83,8 @@ int menu()
     printf("5- BUSCAR LIVRO POR CODIGO \n");
     printf("6- ALTERAR LIVRO  (MODIFICAR TITULO, CATEGORIA E QUANTIDADE) \n");
     printf("7- REMOVER LIVRO DA BIBLIOTECA \n");
-    printf("8- SAIR DA BIBLIOTECA \n");
+    printf("8- ESTATÍSTICAS GERAIS DO SISTEMA \n");
+    printf("9- SAIR DA BIBLIOTECA \n");
 
     printf("\n O QUE DESEJA FAZER HOJE? \n");
     scanf("%d", &op);
@@ -116,6 +126,8 @@ void executarMenu()
                 removerLivro();
                 break;
             case 8:
+                estatisticas();
+            case 9:
                 printf("\n ATE A PROXIMA GARFANHOTO !!!\n");
                 break;
             default:
@@ -124,7 +136,7 @@ void executarMenu()
                 
         }
 
-    } while(op != 8);
+    } while(op != 9);
 
 
 }
@@ -214,6 +226,7 @@ void cadastrarLivro()
     printf("\n OBRIGADO GARFANHOTO, LIVRO CADASTRADO, TMJ !!! \n");
     
     totalLivros++;
+    livrosCadastrados++;
 
 }
 
@@ -267,6 +280,7 @@ void alugarLivro()
     alugados[totalAlugados] = biblioteca[indice];
     alugados[totalAlugados].quantidade = 1;
     totalAlugados++;
+    livrosAlugados++;
 
     printf("\n\nTÍTULO %s ALUGADO COM SUCESSO !!! \n\n", biblioteca[indice].titulo);
     printf("\n\nRESTARAM %d LIVROS DO TITULO %s DISPONÍVELS.\n\n", biblioteca[indice].quantidade, biblioteca[indice].titulo);
@@ -311,6 +325,8 @@ void devolverLivro()
         totalAlugados--;
     }
 
+    livrosDevolvidos++;
+
     printf("\nLIVRO \"%s\" DEVOLVIDO COM SUCESSO!\n", biblioteca[indiceBiblioteca].titulo);
 }
 
@@ -345,6 +361,7 @@ void alterarLivro()
 {
     int codigo;
     int indice;
+    int houveAlteracao = 0;
 
     char opcao;
 
@@ -360,17 +377,13 @@ void alterarLivro()
     }
 
     printf("\n===========================================\n");
-    printf("\n============ LIVRO ENCONTRADO: ============\n");
-    printf("\n===========================================\n");
+    printf("============ LIVRO ENCONTRADO =============\n");
+    printf("===========================================\n");
 
-    printf("\nCODIGO: %d\n", biblioteca[indice].codigo);
-    printf("\nTITULO: %s\n", biblioteca[indice].titulo);
-    printf("\nCATEGORIA: %s\n", biblioteca[indice].categoria);
-    printf("\nQUANTIDADE: %d\n", biblioteca[indice].quantidade);
-
-    printf("\n========================================\n");
-
-    // ALTERAR CODIGO
+    printf("CODIGO: %d\n", biblioteca[indice].codigo);
+    printf("TITULO: %s\n", biblioteca[indice].titulo);
+    printf("CATEGORIA: %s\n", biblioteca[indice].categoria);
+    printf("QUANTIDADE: %d\n", biblioteca[indice].quantidade);
 
     printf("\nDESEJA ALTERAR O CODIGO? (S/N): ");
     scanf(" %c", &opcao);
@@ -389,6 +402,7 @@ void alterarLivro()
         else
         {
             biblioteca[indice].codigo = novoCodigo;
+            houveAlteracao = 1;
             printf("CODIGO ALTERADO COM SUCESSO!\n");
         }
     }
@@ -405,10 +419,10 @@ void alterarLivro()
 
         strcpy(biblioteca[indice].titulo, novoTitulo);
 
-        printf("\n\nTITULO ALTERADO COM SUCESSO!\n\n");
-    }
+        houveAlteracao = 1;
 
-    // ALTERAR CATEGORIA
+        printf("TITULO ALTERADO COM SUCESSO!\n");
+    }
 
     printf("\nDESEJA ALTERAR A CATEGORIA? (S/N): ");
     scanf(" %c", &opcao);
@@ -422,10 +436,10 @@ void alterarLivro()
 
         strcpy(biblioteca[indice].categoria, novaCategoria);
 
+        houveAlteracao = 1;
+
         printf("CATEGORIA ALTERADA COM SUCESSO!\n");
     }
-
-    // ALTERAR QUANTIDADE
 
     printf("\nDESEJA ALTERAR A QUANTIDADE? (S/N): ");
     scanf(" %c", &opcao);
@@ -444,20 +458,28 @@ void alterarLivro()
         else
         {
             biblioteca[indice].quantidade = novaQuantidade;
+
+            houveAlteracao = 1;
+
             printf("QUANTIDADE ALTERADA COM SUCESSO!\n");
         }
     }
 
-    printf("\n\n=================================================\n\n");
-    printf("\n\n ============ DADOS FINAIS DO LIVRO: ============\n\n");
-    printf("\n\n=================================================\n\n");
+    if(houveAlteracao)
+    {
+        livrosAlterados++;
+    }
+
+    printf("\n===========================================\n");
+    printf("DADOS FINAIS DO LIVRO\n");
+    printf("===========================================\n");
 
     printf("CODIGO: %d\n", biblioteca[indice].codigo);
     printf("TITULO: %s\n", biblioteca[indice].titulo);
     printf("CATEGORIA: %s\n", biblioteca[indice].categoria);
     printf("QUANTIDADE: %d\n", biblioteca[indice].quantidade);
 
-    printf("\nALTERACAO CONCLUIDA COM SUCESSO!\n");
+    printf("\nALTERACAO CONCLUIDA!\n");
 }
 
 void removerLivro()
@@ -511,6 +533,40 @@ void removerLivro()
     }
 
     totalLivros--;
+    livrosRemovidos++;
 
-    printf("\nLIVRO REMOVIDO COM SUCESSO!\n");
+    printf("\nLIVRO REMOVIDO COM SUCESSO !!!\n");
+}
+
+void estatisticas()
+{
+    int totalExemplares = 0;
+
+    for(int i = 0; i < totalLivros; i++)
+    {
+        totalExemplares += biblioteca[i].quantidade;
+    }
+
+    printf("\n");
+    printf("=========================================\n");
+    printf("      ESTATISTICAS DO SISTEMA\n");
+    printf("=========================================\n");
+
+    printf("TOTAL DE TITULOS CADASTRADOS: %d\n", totalLivros);
+
+    printf("TOTAL DE EXEMPLARES DISPONIVEIS: %d\n", totalExemplares);
+
+    printf("LIVROS ATUALMENTE ALUGADOS: %d\n", totalAlugados);
+
+    printf("LIVROS CADASTRADOS DURANTE A EXECUCAO: %d\n", livrosCadastrados);
+
+    printf("LIVROS REMOVIDOS DURANTE A EXECUCAO: %d\n", livrosRemovidos);
+
+    printf("ALTERACOES REALIZADAS: %d\n", livrosAlterados);
+
+    printf("TOTAL DE ALUGUEIS REALIZADOS: %d\n", livrosAlugados);
+
+    printf("TOTAL DE DEVOLUCOES REALIZADAS: %d\n", livrosDevolvidos);
+
+    printf("=========================================\n");
 }
