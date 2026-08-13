@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "EXE 2 VETORES 12-08-26/1.0.0": {
+        "runtime": {
+          "EXE 2 VETORES 12-08-26.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "EXE 2 VETORES 12-08-26/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
