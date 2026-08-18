@@ -11,9 +11,6 @@ int countOdd = 0;
 
 Console.WriteLine("Digite 10 números inteiros: ");
 
-int par = 0;
-int imp = 0;
-
 for (int i = 0; i < numbers.Length; i++)
 {
 
@@ -22,12 +19,12 @@ for (int i = 0; i < numbers.Length; i++)
 
     if (numbers[i] % 2 == 0)
     {
-        evenNumbers[i] = numbers[i];
+        evenNumbers[countEven] = numbers[i];
         countEven++;
     }
     else
     {
-        oddNumbers[i] = numbers[i];
+        oddNumbers[countOdd] = numbers[i];
         countOdd++;
     }
 
@@ -40,12 +37,12 @@ for (int i = 0; i < numbers.Length; i++)
 Console.WriteLine(" ");
 Console.WriteLine("ARRAY DE PARES: ");
 
-for (int i = 0; i < evenNumbers.Length; i++)
+for (int i = 0; i < countEven; i++)
 {
-    Console.WriteLine(evenNumbers[i] + " ");
+    Console.Write(evenNumbers[i] + " ");
 }
 
-Console.WriteLine("TOTAL DE PARES FOI: ");
+Console.WriteLine("\n\nTOTAL DE PARES FOI: ");
 Console.WriteLine(countEven);
 
 // MOSTRANDO OS NUMEROS IMPARES SEPARADOS DO ARRAY PRINCIPAL:
@@ -53,12 +50,12 @@ Console.WriteLine(countEven);
 Console.WriteLine(" ");
 Console.WriteLine("ARRAY DE IMPARES: ");
 
-for (int i = 0; i < oddNumbers.Length; i++)
+for (int i = 0; i < countOdd; i++)
 {
-    Console.WriteLine(oddNumbers[i] + " ");
+    Console.Write(oddNumbers[i] + " ");
 }
 
-Console.WriteLine("TOTAL DE IMPARES FOI: ");
+Console.WriteLine("\n\nTOTAL DE IMPARES FOI: ");
 Console.WriteLine(countOdd);
 
 // EXERCICIOS 36 ATE 42

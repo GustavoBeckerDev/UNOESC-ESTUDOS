@@ -4,22 +4,25 @@ Console.WriteLine("IDENTIFIOCAÇÃO DE PALIMDROMOS");
 
 Console.WriteLine("DIGITE UMA PALAVRA QUALQUER: ");
 
-string palavra = Console.ReadLine();
+string palavra = Console.ReadLine() + "";
 
 string invertida = string.Empty;
 
-for (int i = palavra.Length - 1; i > 0; i--)
+for (int i = palavra.Length - 1; i >= 0; i--)
 {   
-    int j = 0;
     invertida += palavra[i];
-    j++;
 }
 
-if (invertida == palavra)
+bool palimdroma = string.Equals(
+    palavra, 
+    invertida, 
+    StringComparison.OrdinalIgnoreCase
+);
+
+if (palimdroma == true)
 {
-    Console.WriteLine("A PALAVRA " + palavra + " É UM PALÍMDROMO.");
+    Console.WriteLine("A palavra {0} É uma palavra PALÍMDROMA", palavra);
 }
-else 
-{
-    Console.WriteLine("A PALAVRA " + palavra + " NÃO É UM PALÍMDROMO.");
-}  
+else {
+    Console.WriteLine("A palavra {0} NÃO É uma palavra PALÍMDROMA", palavra);
+}
