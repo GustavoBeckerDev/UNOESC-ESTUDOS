@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-Console.WriteLine("Hello, World!");
+﻿Console.WriteLine("Hello, World!");
 
 // COMENTÁRIO DE UMA LINHA
 
@@ -105,29 +103,3 @@ for (int i = 0; i < myArray.Length; i++)
 
 Console.WriteLine("Soma de valores: " + total);
 Console.WriteLine("Contagem de valores: " + counter);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
