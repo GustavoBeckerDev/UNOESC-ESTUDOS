@@ -1,4 +1,4 @@
-public enum TransportEnumn
+public enum TransportEnum
 {
     CAR,
     BUS,

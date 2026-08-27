@@ -1,1 +1,10 @@
-﻿Console.WriteLine("Hello, World!");
+﻿using System.Text;
+
+TransportEnum[,] streets =
+{
+
+
+
+
+
+};

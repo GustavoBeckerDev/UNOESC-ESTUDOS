@@ -1,19 +1,21 @@
 public static class TransportEnumExtension
 {
-    public static char GetChar(this TransportEnumn transport)
+    public static char GetChar(this TransportEnum transport)
     {
         switch (transport)
         {
-            case TransportEnumn.BIKE:
+            case TransportEnum.BIKE:
                 return 'B';
-            case TransportEnumn.BUS:
+            case TransportEnum.BUS:
                 return 'U';
-            case TransportEnumn.CAR:
+            case TransportEnum.CAR:
                 return 'C';
-            case TransportEnumn.SUBWAY:
+            case TransportEnum.SUBWAY:
                 return 'S';
-            case TransportEnumn.WALK:
+            case TransportEnum.WALK:
                 return 'W';
+            default:
+                return 'D';
         }
     }
 
