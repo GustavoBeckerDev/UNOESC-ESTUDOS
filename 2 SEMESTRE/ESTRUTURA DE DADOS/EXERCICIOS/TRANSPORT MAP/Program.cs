@@ -1,10 +1,6 @@
 ﻿using System.Text;
 
-TransportEnum[,] streets =
+public class car
 {
-
-
-
-
-
-};
+    public string
+}
