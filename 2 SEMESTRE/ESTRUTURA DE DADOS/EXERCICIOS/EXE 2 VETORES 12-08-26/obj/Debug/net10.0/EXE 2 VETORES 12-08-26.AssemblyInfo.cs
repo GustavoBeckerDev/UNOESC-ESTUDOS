@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EXE 2 VETORES 12-08-26")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b35d97f8aefd625036f1a88d7d5fd6637840e5b0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9abfe474e15acbf21b6bf6c1181ce663e8c022f")]
 [assembly: System.Reflection.AssemblyProductAttribute("EXE 2 VETORES 12-08-26")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EXE 2 VETORES 12-08-26")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
