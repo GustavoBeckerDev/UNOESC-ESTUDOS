@@ -8,4 +8,7 @@ company.Root = new TreeNode<Person> ()
     Parent = null
 };
 
-
+company.Root.Children = new List<TreeNode<Person>> ()
+{
+    
+};
