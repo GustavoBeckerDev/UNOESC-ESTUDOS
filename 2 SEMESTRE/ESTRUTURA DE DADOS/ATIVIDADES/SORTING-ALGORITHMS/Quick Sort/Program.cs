@@ -24,7 +24,5 @@ Console.WriteLine(string.Join(" | ", stringValues));
 
 Console.WriteLine("\n\n===================================================\n\n");
 
-Console.WriteLine($"Total de Operações: {QuickSort.QuickSort.OperationCount}");
-
 Console.WriteLine($"Total de Swaps: {QuickSort.QuickSort.SwapCount}");
 
