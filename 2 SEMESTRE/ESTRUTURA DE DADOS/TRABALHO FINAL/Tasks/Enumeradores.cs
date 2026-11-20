@@ -11,7 +11,7 @@ public class Enumeradores
     }
 
     public enum Priority
-    {   
+    {
         LOW,
         MEDIUM,
         HIGH
